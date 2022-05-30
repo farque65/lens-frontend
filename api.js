@@ -1,12 +1,12 @@
-import { createClient } from 'urql'
+import { createClient } from 'urql';
 
-const APIURL = "https://api.lens.dev"
+const APIURL = 'https://api.lens.dev';
 
-console.log('APIURL: ', APIURL)
+console.log('APIURL: ', APIURL);
 
 const urqlClient = new createClient({
-  url: APIURL,
-})
+	url: APIURL,
+});
 
 const recommendProfiles = `
   query RecommendedProfiles {
@@ -65,7 +65,7 @@ const recommendProfiles = `
         }
     }
   }
-`
+`;
 
 const getProfiles = `
   query Profiles($id: ProfileId!) {
@@ -135,7 +135,7 @@ const getProfiles = `
       }
     }
   }
-`
+`;
 
 const getPublications = `
   query Publications($id: ProfileId!, $limit: LimitScalar) {
@@ -182,7 +182,7 @@ const getPublications = `
     url
     mimeType
   }
-`
+`;
 
 const searchProfiles = `
   query Search($profileName: Search!) {
@@ -286,12 +286,49 @@ const searchProfiles = `
       }
     }
   }
-`
+`;
+
+const getAllNfts = `
+query Nfts($ownerAddress: EthereumAddress!) {
+  nfts(request: {
+    ownerAddress: $ownerAddress,
+    limit: 10,
+    chainIds: [137]
+  }) {
+    items {
+      contractName
+      contractAddress
+      symbol
+      tokenId
+      owners {
+        amount
+        address
+      }
+      name
+      description
+      contentURI
+      originalContent {
+        uri
+        metaType
+      }
+      chainId
+      collectionName
+      ercType
+    }
+    pageInfo {
+      prev
+      next
+      totalCount
+    }
+  }
+}
+`;
 
 export {
-  urqlClient,
-  recommendProfiles,
-  getProfiles,
-  getPublications,
-  searchProfiles
-}
+	urqlClient,
+	recommendProfiles,
+	getProfiles,
+	getPublications,
+	searchProfiles,
+	getAllNfts,
+};
